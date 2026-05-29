@@ -1,103 +1,50 @@
 #include <QApplication>
-#include <QMainWindow>
-#include <QWidget>
-#include <QLabel>
-#include <QPushButton>
-#include <QComboBox>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QFrame>
+#include <iostream>
+#include <string>
+#include "okno_glowne.h"
+#include "tester_konsolowy.h"
 
-class PathfinderGrid : public QFrame
-{ 
-public:
-    PathfinderGrid(QWidget *parent = nullptr) : QFrame(parent)
-    {
-        setFrameStyle(QFrame::Panel | QFrame::Sunken);
+/**
+ * @file main.cpp
+ * @brief Główny plik wejściowy do programu.
+ * 
+ * Ten plik uruchamia aplikację w jednym z dwóch trybów w zależności od
+ * przekazanych argumentów wywołania w linii komend:
+ * 
+ * 1. Tryb tekstowy / konsolowy: Uruchamiany, gdy podano argument '--konsola' lub '--test'.
+ *    W tym trybie program wywołuje TesterKonsolowy, który weryfikuje poprawne
+ *    działanie planszy i algorytmu w czystej konsoli za pomocą znaków ASCII, bez
+ *    żadnej zależności od powłoki graficznej (Qt).
+ * 
+ * 2. Tryb graficzny GUI: Uruchamiany domyślnie, w którym inicjalizowany jest
+ *    silnik graficzny QApplication i otwierane jest główne okno programu (OknoGlowne).
+ */
+int main(int argc, char *argv[]) {
+    bool uruchomKonsolowyTest = false;
+    
+    // Iterujemy po argumentach wywołania programu
+    for (int i = 1; i < argc; i++) {
+        std::string argument = argv[i];
+        if (argument == "--konsola" || argument == "--test" || argument == "--console") {
+            uruchomKonsolowyTest = true;
+            break;
+        }
     }
-};
-class ColorSwatch : public QFrame
-{
-public:
-    ColorSwatch(QWidget *parent = nullptr) : QFrame(parent)
-    {
-        setFrameStyle(QFrame::Panel | QFrame::Raised);
-        setFixedSize(30,30);
+
+    // 1. Tryb testowy / konsolowy (separacja logiki biznesowej od graficznej)
+    if (uruchomKonsolowyTest) {
+        TesterKonsolowy::uruchomTest();
+        return 0;
     }
-};
 
-class PathFinderWindow : public QMainWindow
-{
-public:
-    PathFinderWindow()
-    {
-        QWidget *centralWidget = new QWidget(this);
-        setCentralWidget(centralWidget);
+    // 2. Tryb graficzny GUI (domyślny) oparty na bibliotece Qt
+    QApplication aplikacja(argc, argv);
 
-        QVBoxLayout *mainLayout = new QVBoxLayout(centralWidget);
+    OknoGlowne oknoProgramu;
+    oknoProgramu.setWindowTitle("scierzoznajdywarz v2");
+    oknoProgramu.resize(1100, 750);
+    oknoProgramu.show();
 
-        QHBoxLayout *topRegionLayout = new QHBoxLayout();
-        mainLayout->addLayout(topRegionLayout);
-
-        PathfinderGrid *grid = new PathfinderGrid();
-
-        topRegionLayout->addWidget(grid, 5);
-
-        QVBoxLayout *statsLayout = new QVBoxLayout();
-        QWidget *statsContainer = new QWidget();
-        statsContainer->setLayout(statsLayout);
-        statsContainer->setFixedWidth(150);
-        topRegionLayout->addWidget(statsContainer);
-
-        statsLayout->addWidget(new QLabel("Stats 1: --"));
-        statsLayout->addWidget(new QLabel("Stats 2: --"));
-        statsLayout->addStretch();
-
-        QHBoxLayout *bottomControlLayout = new QHBoxLayout();
-        mainLayout->addLayout(bottomControlLayout);
-
-        // 3. Color Picker Panel
-        QVBoxLayout *colorPickerPanel = new QVBoxLayout();
-        QWidget *colorPickerContainer = new QWidget();
-        colorPickerContainer->setLayout(colorPickerPanel);
-        bottomControlLayout->addWidget(colorPickerContainer);
-
-        colorPickerPanel->addWidget(new QLabel("Tile Palette:"));
-        QHBoxLayout *swatches = new QHBoxLayout();
-        swatches->addWidget(new ColorSwatch());
-        swatches->addWidget(new ColorSwatch());
-        colorPickerPanel->addLayout(swatches);
-        colorPickerPanel->addWidget(new QLabel("Text at Bottom"));
-
-        QVBoxLayout *algoPanel = new QVBoxLayout();
-        QWidget *algoContainer = new QWidget();
-        algoContainer->setLayout(algoPanel);
-        bottomControlLayout->addWidget(algoContainer);
-
-        algoPanel->addWidget(new QLabel("Select Algorithm:"));
-        algoPanel->addWidget(new QComboBox());
-
-        QVBoxLayout *buttonPanel = new QVBoxLayout();
-        QWidget *buttonContainer = new QWidget();
-        buttonContainer->setLayout(buttonPanel);
-        bottomControlLayout->addWidget(buttonContainer);
-
-        buttonPanel->addWidget(new QPushButton("Start"));
-        buttonPanel->addWidget(new QPushButton("Stop"));
-        buttonPanel->addWidget(new QPushButton("Step"));
-        buttonPanel->addStretch();
-    }
-};
-
-int main(int argc, char *argv[])
-{
-    QApplication app(argc, argv);
-
-    PathFinderWindow window;
-
-    window.resize(1000, 700);
-
-    window.show();
-
-    return app.exec();
+    // Uruchomienie pętli zdarzeń Qt
+    return aplikacja.exec();
 }

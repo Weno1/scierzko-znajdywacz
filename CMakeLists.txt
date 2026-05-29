@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.30)
 
-project(scierzko-znajdywacz)
+project(scierzoznajdywarz_v2)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -46,14 +46,14 @@ target_sources("${CMAKE_PROJECT_NAME}" PRIVATE ${MY_SOURCES} )
 
 target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 
-target_link_libraries(scierzko-znajdywacz PRIVATE 
+target_link_libraries(scierzoznajdywarz_v2 PRIVATE 
     Qt6::Core 
     Qt6::Widgets 
     Qt6::Gui
 )
 
 if(WIN32)
-    set_target_properties(scierzko-znajdywacz PROPERTIES WIN32_EXECUTABLE FALSE)
+    set_target_properties(scierzoznajdywarz_v2 PROPERTIES WIN32_EXECUTABLE FALSE)
 endif()
 
 enable_cxx_compiler_flag_if_supported("-Wall")
