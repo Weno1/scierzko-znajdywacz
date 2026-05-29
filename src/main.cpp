@@ -4,6 +4,8 @@
 #include "okno_glowne.h"
 #include "tester_konsolowy.h"
 
+using namespace std;
+
 /**
  * @file main.cpp
  * @brief Główny plik wejściowy do programu.
@@ -24,7 +26,7 @@ int main(int argc, char *argv[]) {
     
     // Iterujemy po argumentach wywołania programu
     for (int i = 1; i < argc; i++) {
-        std::string argument = argv[i];
+        string argument = argv[i];
         if (argument == "--konsola" || argument == "--test" || argument == "--console") {
             uruchomKonsolowyTest = true;
             break;

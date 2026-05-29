@@ -3,10 +3,12 @@
 #include "algorytm.h"
 #include <iostream>
 
+using namespace std;
+
 void TesterKonsolowy::uruchomTest() {
-    std::cout << "=============================================================" << std::endl;
-    std::cout << "  TEST LOGIKI BIZNESOWEJ I INTERFEJSU TEKSTOWEGO (ASCII)" << std::endl;
-    std::cout << "=============================================================" << std::endl;
+    cout << "=============================================================" << endl;
+    cout << "  TEST LOGIKI BIZNESOWEJ I INTERFEJSU TEKSTOWEGO (ASCII)" << endl;
+    cout << "=============================================================" << endl;
 
     // 1. Tworzymy planszę testową 12 wierszy na 12 kolumn
     Plansza plansza(12, 12);
@@ -25,35 +27,35 @@ void TesterKonsolowy::uruchomTest() {
     plansza.ustawTypKomorki(4, 7, TypKomorki::Sciana);
     plansza.ustawTypKomorki(5, 7, TypKomorki::Sciana);
 
-    std::cout << "Stan planszy poczatkowej (S - start, C - cel, # - sciana, . - wolne):" << std::endl;
-    std::cout << "----------------------------------------" << std::endl;
+    cout << "Stan planszy poczatkowej (S - start, C - cel, # - sciana, . - wolne):" << endl;
+    cout << "----------------------------------------" << endl;
     for (int w = 0; w < plansza.pobierzWiersze(); w++) {
-        std::cout << "  ";
+        cout << "  ";
         for (int k = 0; k < plansza.pobierzKolumny(); k++) {
             Punkt p(w, k);
             if (p == plansza.pobierzStart()) {
-                std::cout << "S ";
+                cout << "S ";
             } else if (p == plansza.pobierzCel()) {
-                std::cout << "C ";
+                cout << "C ";
             } else if (plansza.pobierzTypKomorki(p) == TypKomorki::Sciana) {
-                std::cout << "# ";
+                cout << "# ";
             } else {
-                std::cout << ". ";
+                cout << ". ";
             }
         }
-        std::cout << std::endl;
+        cout << endl;
     }
-    std::cout << "----------------------------------------" << std::endl;
+    cout << "----------------------------------------" << endl;
 
     // 3. Uruchamiamy algorytm Dijkstry w celach testowych
     AlgorytmDijkstry alg;
     WynikWyszukiwania wynik = alg.szukaj(plansza, plansza.pobierzStart(), plansza.pobierzCel());
 
-    std::cout << "Status szukania drogi: " << (wynik.znaleziono ? "SUKCES!" : "PORAZKA (droga zablokowana)") << std::endl;
+    cout << "Status szukania drogi: " << (wynik.znaleziono ? "SUKCES!" : "PORAZKA (droga zablokowana)") << endl;
     
     if (wynik.znaleziono) {
-        std::cout << "Dlugosc wyznaczonej trasy: " << wynik.najkrotszaSciezka.size() << " pol." << std::endl;
-        std::cout << "Liczba zbadanych (odwiedzonych) komorek: " << wynik.kolejnoscOdwiedzania.size() << std::endl;
+        cout << "Dlugosc wyznaczonej trasy: " << wynik.najkrotszaSciezka.size() << " pol." << endl;
+        cout << "Liczba zbadanych (odwiedzonych) komorek: " << wynik.kolejnoscOdwiedzania.size() << endl;
         
         // Zapisujemy wyznaczoną ścieżkę na planszy testowej
         // Pomijamy pierwszy i ostatni element, aby nie nadpisać ikon startu/celu
@@ -61,28 +63,28 @@ void TesterKonsolowy::uruchomTest() {
             plansza.ustawTypKomorki(wynik.najkrotszaSciezka[i], TypKomorki::Sciezka);
         }
 
-        std::cout << "\nStan planszy końcowej z wyznaczona sciezka (x):" << std::endl;
-        std::cout << "----------------------------------------" << std::endl;
+        cout << "\nStan planszy końcowej z wyznaczona sciezka (x):" << endl;
+        cout << "----------------------------------------" << endl;
         for (int w = 0; w < plansza.pobierzWiersze(); w++) {
-            std::cout << "  ";
+            cout << "  ";
             for (int k = 0; k < plansza.pobierzKolumny(); k++) {
                 Punkt p(w, k);
                 if (p == plansza.pobierzStart()) {
-                    std::cout << "S ";
+                    cout << "S ";
                 } else if (p == plansza.pobierzCel()) {
-                    std::cout << "C ";
+                    cout << "C ";
                 } else if (plansza.pobierzTypKomorki(p) == TypKomorki::Sciana) {
-                    std::cout << "# ";
+                    cout << "# ";
                 } else if (plansza.pobierzTypKomorki(p) == TypKomorki::Sciezka) {
-                    std::cout << "x ";
+                    cout << "x ";
                 } else {
-                    std::cout << ". ";
+                    cout << ". ";
                 }
             }
-            std::cout << std::endl;
+            cout << endl;
         }
-        std::cout << "----------------------------------------" << std::endl;
+        cout << "----------------------------------------" << endl;
     }
     
-    std::cout << "=============================================================" << std::endl;
+    cout << "=============================================================" << endl;
 }

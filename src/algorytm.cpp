@@ -4,6 +4,8 @@
 #include <cmath>
 #include <algorithm>
 
+using namespace std;
+
 // ==========================================
 // IMPLEMENTACJA ALGORYTMU BFS (Wszerz)
 // ==========================================
@@ -14,21 +16,21 @@ WynikWyszukiwania AlgorytmBFS::szukaj(const Plansza& plansza, Punkt start, Punkt
     int kolumny = plansza.pobierzKolumny();
     
     // Inicjalizacja tablicy odwiedzonych elementów - początkowo wszystkie są fałszem (false)
-    std::vector<std::vector<bool>> odwiedzone;
+    vector<vector<bool>> odwiedzone;
     odwiedzone.resize(wiersze);
     for (int i = 0; i < wiersze; i++) {
         odwiedzone[i].resize(kolumny, false);
     }
     
     // Tablica rodziców - pozwala odtworzyć drogę wstecz po znalezieniu celu
-    std::vector<std::vector<Punkt>> rodzic;
+    vector<vector<Punkt>> rodzic;
     rodzic.resize(wiersze);
     for (int i = 0; i < wiersze; i++) {
         rodzic[i].resize(kolumny, Punkt(-1, -1));
     }
     
     // Kolejka typu FIFO (First In First Out)
-    std::queue<Punkt> kolejka;
+    queue<Punkt> kolejka;
     
     // Zaczynamy przeszukiwanie od punktu początkowego
     kolejka.push(start);
@@ -87,7 +89,7 @@ WynikWyszukiwania AlgorytmBFS::szukaj(const Plansza& plansza, Punkt start, Punkt
         wynik.najkrotszaSciezka.push_back(start);
         
         // Odwracamy wektor, aby ścieżka zaczynała się od startu
-        std::reverse(wynik.najkrotszaSciezka.begin(), wynik.najkrotszaSciezka.end());
+        reverse(wynik.najkrotszaSciezka.begin(), wynik.najkrotszaSciezka.end());
     }
     
     return wynik;
@@ -102,20 +104,20 @@ WynikWyszukiwania AlgorytmDFS::szukaj(const Plansza& plansza, Punkt start, Punkt
     int wiersze = plansza.pobierzWiersze();
     int kolumny = plansza.pobierzKolumny();
     
-    std::vector<std::vector<bool>> odwiedzone;
+    vector<vector<bool>> odwiedzone;
     odwiedzone.resize(wiersze);
     for (int i = 0; i < wiersze; i++) {
         odwiedzone[i].resize(kolumny, false);
     }
     
-    std::vector<std::vector<Punkt>> rodzic;
+    vector<vector<Punkt>> rodzic;
     rodzic.resize(wiersze);
     for (int i = 0; i < wiersze; i++) {
         rodzic[i].resize(kolumny, Punkt(-1, -1));
     }
     
-    // Używamy std::vector jako stosu LIFO (Last In First Out)
-    std::vector<Punkt> stos;
+    // Używamy vector jako stosu LIFO (Last In First Out)
+    vector<Punkt> stos;
     stos.push_back(start);
     
     int ruchWiersz[] = {-1, 1, 0, 0};
@@ -167,7 +169,7 @@ WynikWyszukiwania AlgorytmDFS::szukaj(const Plansza& plansza, Punkt start, Punkt
             biezacy = rodzic[biezacy.wiersz][biezacy.kolumna];
         }
         wynik.najkrotszaSciezka.push_back(start);
-        std::reverse(wynik.najkrotszaSciezka.begin(), wynik.najkrotszaSciezka.end());
+        reverse(wynik.najkrotszaSciezka.begin(), wynik.najkrotszaSciezka.end());
     }
     
     return wynik;
@@ -179,8 +181,8 @@ WynikWyszukiwania AlgorytmDFS::szukaj(const Plansza& plansza, Punkt start, Punkt
 
 // Metoda prywatna obliczająca odległość miejską (Manhattan)
 int AlgorytmAStar::obliczManhattan(Punkt a, Punkt b) {
-    int dx = std::abs(a.wiersz - b.wiersz);
-    int dy = std::abs(a.kolumna - b.kolumna);
+    int dx = abs(a.wiersz - b.wiersz);
+    int dy = abs(a.kolumna - b.kolumna);
     return dx + dy;
 }
 
@@ -196,7 +198,7 @@ struct WezelAStar {
     }
     
     // Potrzebne do kolejki priorytetowej (zwraca true, gdy ten koszt jest WIĘKSZY od innego,
-    // dzięki czemu w std::priority_queue na szczycie wyląduje najmniejszy element)
+    // dzięki czemu w priority_queue na szczycie wyląduje najmniejszy element)
     bool operator>(const WezelAStar& inny) const {
         return fScore() > inny.fScore();
     }
@@ -209,27 +211,27 @@ WynikWyszukiwania AlgorytmAStar::szukaj(const Plansza& plansza, Punkt start, Pun
     int kolumny = plansza.pobierzKolumny();
     
     // Tablica kosztów dojścia. Domyślnie ustawiamy bardzo dużą liczbę (nieskończoność)
-    std::vector<std::vector<int>> gScore;
+    vector<vector<int>> gScore;
     gScore.resize(wiersze);
     for (int i = 0; i < wiersze; i++) {
         gScore[i].resize(kolumny, 1000000);
     }
     
     // Tablica zamknięta - dla węzłów, które już zostały w pełni zbadane
-    std::vector<std::vector<bool>> zamkniete;
+    vector<vector<bool>> zamkniete;
     zamkniete.resize(wiersze);
     for (int i = 0; i < wiersze; i++) {
         zamkniete[i].resize(kolumny, false);
     }
     
-    std::vector<std::vector<Punkt>> rodzic;
+    vector<vector<Punkt>> rodzic;
     rodzic.resize(wiersze);
     for (int i = 0; i < wiersze; i++) {
         rodzic[i].resize(kolumny, Punkt(-1, -1));
     }
     
     // Kolejka priorytetowa posortowana rosnąco według kosztu fScore
-    std::priority_queue<WezelAStar, std::vector<WezelAStar>, std::greater<WezelAStar>> otwartaKolejka;
+    priority_queue<WezelAStar, vector<WezelAStar>, greater<WezelAStar>> otwartaKolejka;
     
     // Inicjalizacja startowa
     gScore[start.wiersz][start.kolumna] = 0;
@@ -295,7 +297,7 @@ WynikWyszukiwania AlgorytmAStar::szukaj(const Plansza& plansza, Punkt start, Pun
             biezacy = rodzic[biezacy.wiersz][biezacy.kolumna];
         }
         wynik.najkrotszaSciezka.push_back(start);
-        std::reverse(wynik.najkrotszaSciezka.begin(), wynik.najkrotszaSciezka.end());
+        reverse(wynik.najkrotszaSciezka.begin(), wynik.najkrotszaSciezka.end());
     }
     
     return wynik;
@@ -323,12 +325,12 @@ WynikWyszukiwania AlgorytmDijkstry::szukaj(const Plansza& plansza, Punkt start, 
     int kolumny = plansza.pobierzKolumny();
     
     // Tablica najkrótszych znanych dystansów
-    std::vector<std::vector<int>> dystans(wiersze, std::vector<int>(kolumny, 1000000));
-    std::vector<std::vector<bool>> zamkniete(wiersze, std::vector<bool>(kolumny, false));
-    std::vector<std::vector<Punkt>> rodzic(wiersze, std::vector<Punkt>(kolumny, Punkt(-1, -1)));
+    vector<vector<int>> dystans(wiersze, vector<int>(kolumny, 1000000));
+    vector<vector<bool>> zamkniete(wiersze, vector<bool>(kolumny, false));
+    vector<vector<Punkt>> rodzic(wiersze, vector<Punkt>(kolumny, Punkt(-1, -1)));
     
     // Kolejka priorytetowa posortowana rosnąco według dystansu
-    std::priority_queue<WezelDijkstry, std::vector<WezelDijkstry>, std::greater<WezelDijkstry>> pq;
+    priority_queue<WezelDijkstry, vector<WezelDijkstry>, greater<WezelDijkstry>> pq;
     
     dystans[start.wiersz][start.kolumna] = 0;
     pq.push({start, 0});
@@ -386,7 +388,7 @@ WynikWyszukiwania AlgorytmDijkstry::szukaj(const Plansza& plansza, Punkt start, 
             biezacy = rodzic[biezacy.wiersz][biezacy.kolumna];
         }
         wynik.najkrotszaSciezka.push_back(start);
-        std::reverse(wynik.najkrotszaSciezka.begin(), wynik.najkrotszaSciezka.end());
+        reverse(wynik.najkrotszaSciezka.begin(), wynik.najkrotszaSciezka.end());
     }
     
     return wynik;

@@ -4,6 +4,8 @@
 #include <vector>
 #include "punkt.h"
 
+using namespace std;
+
 /**
  * @brief Typy komórek na planszy.
  * 
@@ -34,7 +36,7 @@ private:
     int kolumny; ///< Całkowita liczba kolumn planszy
     
     // Dwuwymiarowy wektor przechowujący stany poszczególnych komórek
-    std::vector<std::vector<TypKomorki>> siatka;
+    vector<vector<TypKomorki>> siatka;
 
     Punkt punktStartowy; ///< Współrzędne punktu początkowego (Start)
     Punkt punktDocelowy; ///< Współrzędne punktu docelowego (Cel)

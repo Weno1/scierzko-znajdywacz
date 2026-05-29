@@ -6,6 +6,8 @@
 #include "plansza.h"
 #include "algorytm.h"
 
+using namespace std;
+
 /**
  * @class WidokPlanszy
  * @brief Klasa odpowiedzialna za wizualną prezentację siatki (widok Qt).
@@ -29,8 +31,8 @@ private:
 
     // --- Zmienne sterujące animacją ---
     QTimer* stoperAnimacji;              ///< Stoper odmierzający klatki animacji
-    std::vector<Punkt> animacjaOdwiedzone; ///< Kopiowana lista zbadanych pól
-    std::vector<Punkt> animacjaSciezka;    ///< Kopiowana wyznaczona trasa końcowa
+    vector<Punkt> animacjaOdwiedzone; ///< Kopiowana lista zbadanych pól
+    vector<Punkt> animacjaSciezka;    ///< Kopiowana wyznaczona trasa końcowa
     size_t indeksOdwiedzonych;           ///< Aktualna klatka dla zbadanych pól
     size_t indeksSciezki;                ///< Aktualna klatka dla trasy końcowej
     bool wTrakcieAnimacji;               ///< Czy animacja jest obecnie odtwarzana

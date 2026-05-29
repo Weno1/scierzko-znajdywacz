@@ -5,7 +5,7 @@
  * @brief Struktura reprezentująca współrzędne dwuwymiarowe (punkt na planszy).
  * 
  * Służy do przechowywania pozycji komórki (wiersz i kolumna) zamiast używania
- * bardziej skomplikowanych typów jak std::pair. Ułatwia to zrozumienie kodu.
+ * bardziej skomplikowanych typów jak pair. Ułatwia to zrozumienie kodu.
  */
 struct Punkt {
     int wiersz;   ///< Indeks wiersza na planszy (od góry do dołu, zaczyna się od 0)

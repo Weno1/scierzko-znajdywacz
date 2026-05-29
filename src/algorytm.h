@@ -5,16 +5,15 @@
 #include "plansza.h"
 #include "punkt.h"
 
+using namespace std;
+
 /**
- * @brief Struktura przechowująca rezultaty działania algorytmów wyszukiwania ścieżki.
- * 
- * Służy do zapisu danych wyjściowych, które są potem używane przez GUI
- * do klatkowej animacji odtwarzania drogi krok po kroku.
+ * @brief Przykładowa struktura przechowująca wyniki szukania drogi.
  */
 struct WynikWyszukiwania {
-    std::vector<Punkt> kolejnoscOdwiedzania; ///< Lista zbadanych wierzchołków w kolejności ich odwiedzania
-    std::vector<Punkt> najkrotszaSciezka;    ///< Wyznaczona sekwencja punktów stanowiąca ostateczną drogę
-    bool znaleziono;                         ///< Flaga mówiąca, czy cel był osiągalny i czy znaleziono ścieżkę
+    vector<Punkt> kolejnoscOdwiedzania; ///< Lista zbadanych wierzchołków
+    vector<Punkt> najkrotszaSciezka;    ///< Wyznaczona ścieżka
+    bool znaleziono;                    ///< Czy znaleziono drogę
     
     /**
      * @brief Domyślny konstruktor struktury wyniku.
