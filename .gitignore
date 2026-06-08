@@ -69,3 +69,7 @@ Testing/
 .cache/
 
 .vscode/
+
+# VS Code & Language Server settings
+.vscode/
+.clangd
